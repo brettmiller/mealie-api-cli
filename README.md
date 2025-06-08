@@ -7,9 +7,8 @@ It tries to make smart choices about the HTTP methods to use.
 Supports multipart content and file uploads when there is a file path in the content.
 
 Environment Variables (required):
-
-MEALIE_URL    - Base URL of your Mealie instance
-MEALIE_TOKEN  - API token for authentication
+- MEALIE_URL    - Base URL of your Mealie instance
+- MEALIE_TOKEN  - API token for authentication
 
 
 Requires:
