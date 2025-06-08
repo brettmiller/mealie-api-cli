@@ -10,6 +10,13 @@ Examples:
   ./mealie-api.py recipes/123 '{"name":"Updated Recipe"}' PUT
   ./mealie-api.py recipes/123 '' DELETE
 
+Environment Variables (required):
+  MEALIE_URL    - Base URL of your Mealie instance
+  MEALIE_TOKEN  - API token for authentication  
+
+The api is documented at:
+  https://docs.mealie.io/api/redoc/
+
  Created with the claude.ai prompt:
  "can you write a bash script that's acts kind of like a wrapper to make it easier to call the Mealie API.
  It should get the URL from a variable called MEALIE_URL and the API token from a variable called MEALIE_TOKEN.
@@ -44,7 +51,7 @@ def print_color(color: str, message: str) -> None:
 
 def show_usage() -> None:
     """Show usage information."""
-    print("Usage: mealie-api.py <endpoint> [json_payload] [http_method] [-r|--raw] [-v|--verbose] [-m|--multipart]")
+    print("Usage: mealie-api.py <endpoint> [json_payload] [http_method] [-m|--multipart] [-r|--raw] [-v|--verbose]")
     print("")
     print("Arguments:")
     print("  endpoint      - API endpoint (e.g., recipes, users/self)")
@@ -52,13 +59,10 @@ def show_usage() -> None:
     print("  http_method   - HTTP method: GET, POST, PUT, DELETE (default: GET, or POST if payload provided)")
     print("")
     print("Options:")
-    print("  -r, --raw     - Output raw response without status codes or formatting")
-    print("  -v, --verbose - Show detailed HTTP request information for debugging")
     print("  -m, --multipart - Use multipart/form-data content type instead of JSON")
-    print("")
-    print("Environment Variables (required):")
-    print("  MEALIE_URL    - Base URL of your Mealie instance")
-    print("  MEALIE_TOKEN  - API token for authentication")
+    print("  -r, --raw       - Output raw response without status codes or formatting")
+    print("                    useful for piping to other tools or scripts")
+    print("  -v, --verbose   - Show detailed HTTP request information for debugging")
     print("")
     print("Examples:")
     print("  mealie-api.py recipes")
@@ -69,7 +73,9 @@ def show_usage() -> None:
     print("  mealie-api.py recipes/123 '' DELETE")
     print("  mealie-api.py recipes/import-url '{\"url\":\"https://example.com\"}' POST --multipart")
     print("  mealie-api.py groups/migrations '{\"migration_type\":\"nextcloud\",\"archive\":\"~/path/to/file.zip\"}' POST --multipart")
-
+    print("")
+    print("See: https://docs.mealie.io/api/redoc/ for API documentation.")
+    print("")
 
 def validate_environment() -> tuple[str, str]:
     """Validate required environment variables."""
