@@ -14,3 +14,6 @@ Environment Variables (required):
 Requires:
 - beautifulsoup4
 - requests
+
+
+Full disclosure: this primarily written with the help of Claude Sonnet 4 (via GitHub Copilot)
