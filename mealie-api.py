@@ -52,6 +52,7 @@ def print_color(color: str, message: str) -> None:
 def show_usage() -> None:
     """Show usage information."""
     print("Usage: mealie-api.py <endpoint> [json_payload] [http_method] [-m|--multipart] [-r|--raw] [-v|--verbose]")
+    print("   or: mealie-api.py <endpoint> [http_method] [-m|--multipart] [-r|--raw] [-v|--verbose]")
     print("")
     print("Arguments:")
     print("  endpoint      - API endpoint (e.g., recipes, users/self)")
@@ -70,6 +71,7 @@ def show_usage() -> None:
     print("  mealie-api.py recipes --verbose")
     print("  mealie-api.py recipes '{\"name\":\"My Recipe\"}' POST")
     print("  mealie-api.py recipes/123 '{\"name\":\"Updated Recipe\"}' PUT")
+    print("  mealie-api.py recipes/123 DELETE")
     print("  mealie-api.py recipes/123 '' DELETE")
     print("  mealie-api.py recipes/import-url '{\"url\":\"https://example.com\"}' POST --multipart")
     print("  mealie-api.py groups/migrations '{\"migration_type\":\"nextcloud\",\"archive\":\"~/path/to/file.zip\"}' POST --multipart")
@@ -301,9 +303,9 @@ def format_html_response(html_content: str) -> str:
             result = ""
 
         # Look for error messages or main content
-        error_divs = soup.find_all(['div', 'p', 'span'], class_=lambda x: x and any(
+        error_divs = soup.find_all(['div', 'p', 'span'], class_=lambda x: bool(x and any(
             keyword in x.lower() for keyword in ['error', 'message', 'alert', 'warning']
-        ))
+        )))
 
         if error_divs:
             result += "Error/Message content:\n"
@@ -432,8 +434,24 @@ def main():
         sys.exit(1)
 
     endpoint = args[0]
-    json_payload_str = args[1] if len(args) > 1 else ''
-    http_method = args[2] if len(args) > 2 else None
+    
+    # Smart argument parsing: check if second argument is an HTTP method
+    json_payload_str = ''
+    http_method = None
+    
+    if len(args) == 2:
+        # Two args: could be endpoint + payload OR endpoint + method
+        second_arg = args[1].upper()
+        if second_arg in ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'HEAD', 'OPTIONS']:
+            # Second argument is HTTP method
+            http_method = second_arg
+        else:
+            # Second argument is payload
+            json_payload_str = args[1]
+    elif len(args) >= 3:
+        # Three or more args: endpoint + payload + method (original behavior)
+        json_payload_str = args[1]
+        http_method = args[2]
 
     # Validate environment
     base_url, token = validate_environment()

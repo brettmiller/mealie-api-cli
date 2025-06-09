@@ -25,10 +25,15 @@ Required python modules:
   Usage: mealie-api.py <endpoint> [json_payload] [http_method]
 
   Examples:
-    ./mealie-api.py recipes
-    ./mealie-api.py recipes '{"name":"Test Recipe"}' POST
-    ./mealie-api.py recipes/123 '{"name":"Updated Recipe"}' PUT
-    ./mealie-api.py recipes/123 '' DELETE
+    mealie-api.py recipes
+    mealie-api.py recipes --raw
+    mealie-api.py recipes --verbose
+    mealie-api.py recipes '{"name":"My Recipe"}' POST
+    mealie-api.py recipes/123 '{"name":"Updated Recipe"}' PUT
+    mealie-api.py recipes/123 DELETE
+    mealie-api.py recipes/123 '' DELETE
+    mealie-api.py recipes/import-url '{"url":"https://example.com"}' POST --multipart
+    mealie-api.py groups/migrations '{"migration_type":"nextcloud","archive":"~/path/to/file.zip"}' POST --multipart
   
 ```
 
