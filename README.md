@@ -29,15 +29,10 @@ Required python modules:
     ./mealie-api.py recipes '{"name":"Test Recipe"}' POST
     ./mealie-api.py recipes/123 '{"name":"Updated Recipe"}' PUT
     ./mealie-api.py recipes/123 '' DELETE
-
-  Environment Variables (required):
-    MEALIE_URL    - Base URL of your Mealie instance
-    MEALIE_TOKEN  - API token for authentication  
-
-  The api is documented at:
-    https://docs.mealie.io/api/redoc/
-
+  
 ```
+
+The api is documented at: <https://docs.mealie.io/api/redoc>
 
 </br>
 Full disclosure: this was primarily written with the help of Claude Sonnet 4 (via GitHub Copilot)
